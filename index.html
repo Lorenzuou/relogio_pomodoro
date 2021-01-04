@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<style>
+    body{
+        
+        background: #000428;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #004e92, #000428);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #004e92, #000428); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        font-family: Tahoma, sans-serif;
+        color: white;
+    }
+
+
+    h1{ 
+        text-align: center;
+        margin: 50px;
+    }
+    .wrapper{ 
+        display: grid;
+        grid-template-columns: 24vw 50vw 24vw;
+        margin: auto;
+    
+    }
+
+    #caixa{ 
+        position: relative;
+        margin: auto;
+        height: 400px;
+        width: 400px;
+    }
+    ul{ 
+        list-style-type: none; 
+    }
+    li{ 
+      margin-top: 20px;
+      margin-left: -2rem;
+    }
+    .circle {
+        width: 400px;
+        height: 400px;
+        display: block;
+        margin: auto;
+        fill: none;
+    }
+
+    .opcao{ 
+        width: 12rem;
+        height: 2.2rem;
+        font-size: 17px;
+        background-color: whitesmoke ;
+        color: #004e92;
+        border: none;
+        font-weight: bold;
+    }
+
+    .opcao:hover{transition: 0.4s; color: whitesmoke; background-color: #00d2ff;}
+
+    
+
+    .base{ 
+        stroke: none;
+        fill: none;
+    }
+
+    .base_caminho{ 
+        stroke-width: 2px;
+        stroke: whitesmoke;
+        
+    }
+    #time_label{ 
+        position: absolute;
+  
+        /* Size should match the parent container */
+        width: 400px;
+        height: 400px;
+        
+        /* Keep the label aligned to the top */
+        top: 0;
+        
+        /* Create a flexible box that centers content vertically and horizontally */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        /* Sort of an arbitrary number; adjust to your liking */
+        font-size: 48px;
+    }
+
+    .base-timer__path-remaining {
+        /* Just as thick as the original ring */
+        stroke-width: 2px;
+
+        /* Rounds the line endings to create a seamless circle */
+        stroke-linecap: round;
+
+        /* Makes sure the animation starts at the top of the circle */
+        transform: rotate(90deg);
+        transform-origin: center;
+
+        /* One second aligns with the speed of the countdown timer */
+        transition: 1s linear all;
+
+        /* Allows the ring to change color when the color value updates */
+        stroke: #00d2ff;
+    }
+
+    .botao{ 
+        top: -150px;
+        position: relative;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
+
+    }
+
+    #play{ 
+        fill:#00d2ff;
+    }
+
+    #play:hover{ 
+        fill: aliceblue;
+    }
+
+    #stop{ 
+        fill:#00d2ff; 
+        display: none;
+    }
+    
+    #stop:hover{ 
+        fill: aliceblue;
+    }
+
+    #reset{ 
+        fill:#00d2ff;
+        position: relative;
+        display: none;
+        margin: auto;
+        margin-top: -75px;
+    }
+    #reset:hover{ 
+        fill: aliceblue;
+    }
+
+    .base-timer__svg {
+    /* Flips the svg and makes the animation to move left-to-right */
+    transform: scaleX(-1);
+    }
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro</title>
+</head>
+<body>
+    <h1>Relógio pomodoro </h1>
+   <div class="wrapper">  
+       <div></div>
+    <div id="caixa">
+    <svg class="circle base_caminho" viewBox="0 0 100 100" >
+        <g class="base-timer__circle">
+          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
+          <path
+          id="base-timer-path-remaining"
+          stroke-dasharray=" 283"
+          class="base-timer__path-remaining "
+          d="asd
+            M 50, 50
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+        ></path>
+        </g>
+      </svg>
+      <span id="time_label" class="base-timer__label">
+       00:00
+      </span>
+      
+      <!-- Botão de play -->
+      <svg id="play" class="botao"  width="64" height="64" onclick="timer(0,0)">
+
+        <g >
+       
+         <rect   fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+        </g>
+        <g>
+    
+         <path   id="Fill-124" d="m32.1,56c-13.2,0 -23.9,-10.7 -23.9,-23.9s10.7,-23.9 23.9,-23.9s23.9,10.7 23.9,23.9s-10.7,23.9 -23.9,23.9l0,0zm0,-45.2c-11.7,0 -21.3,9.6 -21.3,21.3c0,11.7 9.6,21.3 21.3,21.3s21.3,-9.6 21.3,-21.3c0,-11.8 -9.6,-21.3 -21.3,-21.3l0,0z" class="st0"/>
+         <path   id="Fill-125" d="m25,44.4l0,-24.7l21.2,12.4l-21.2,12.3l0,0zm2.8,-19.8l0,14.9l12.7,-7.4l-12.7,-7.5l0,0z" class="st0"/>
+        </g>
+       </svg>
+
+       <!-- Botão de stop -->
+       <svg id="stop" class="botao" onclick="timer(0,1)" width="64" height="64" >
+
+        <g>
+         <title>background</title>
+         <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+        </g>
+        <g>
+         <path   id="Fill-124" d="m32.1,56c-13.2,0 -23.9,-10.7 -23.9,-23.9s10.7,-23.9 23.9,-23.9s23.9,10.7 23.9,23.9s-10.7,23.9 -23.9,23.9l0,0zm0,-45.2c-11.7,0 -21.3,9.6 -21.3,21.3c0,11.7 9.6,21.3 21.3,21.3s21.3,-9.6 21.3,-21.3c0,-11.8 -9.6,-21.3 -21.3,-21.3l0,0z" class="st0"/>
+         <rect stroke="null" id="svg_2" height="25.616262" width="5.753385" y="20" x="21.520622" fill-opacity="null" stroke-opacity="null" stroke-width="null" />
+         <rect stroke="null" id="svg_3" height="25.616262" width="5.753385" y="20" x="36.862983" fill-opacity="null" stroke-opacity="null" stroke-width="null" />
+        </g>
+       </svg>
+
+
+
+       <svg id="reset" onclick="reset()" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+
+        <g>
+         <title>background</title>
+         <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+        </g>
+        <g>
+         <path  id="Fill-124" d="m32.1,56c-13.2,0 -23.9,-10.7 -23.9,-23.9s10.7,-23.9 23.9,-23.9s23.9,10.7 23.9,23.9s-10.7,23.9 -23.9,23.9l0,0zm0,-45.2c-11.7,0 -21.3,9.6 -21.3,21.3c0,11.7 9.6,21.3 21.3,21.3s21.3,-9.6 21.3,-21.3c0,-11.8 -9.6,-21.3 -21.3,-21.3l0,0z" class="st0"/>
+         <rect stroke="null" id="svg_3" height="25.616262" width="24.794354" y="20" x="19.602825" fill-opacity="null" stroke-opacity="null" stroke-width="null" />
+        </g>
+       </svg>
+
+
+    </div>
+    <div id="options">
+
+        <h2>Tempos</h2>
+
+        <ul> 
+            <li><button value="1500" onclick="setTime(1500)" class="opcao">Pomodoro</button></li>
+            <li><button value="300" onclick="setTime(300)" class="opcao">Intervalo pequeno</button></li>
+            <li><button value="900" onclick="setTime(900)" class="opcao">Intervalo longo</button></li>
+        </ul>
+    </div>
+</div>
+    <script src="source.js">
+
+
+    </script>
+    
+</body>
+</html>
