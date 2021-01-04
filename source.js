@@ -51,6 +51,7 @@ function setTime(timeLimit){
   document.getElementById("time_label").innerHTML = formatTimeLeft(time);
   document.title = "Tempo: " + formatTimeLeft(time); 
   stopTimer(); 
+  reset()
 
 }
 setTime(1500);
