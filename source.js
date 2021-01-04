@@ -62,7 +62,6 @@ function timer(timeLeft, parar = 0){
         time = timeLeft;
       } 
       document.getElementsByClassName("base-timer__path-remaining")[0].style.transition = "1s linear all";
-       start(time,timeLeft) ;
       timeVar = setInterval(()=> {start(time,timeLeft)}, 1000);
       trocarBotao(1);  
     }else{   
